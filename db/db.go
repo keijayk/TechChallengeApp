@@ -36,19 +36,20 @@ type Config struct {
 	DbUser     string
 	DbPassword string
 	DbName     string
+	DbHostName string
 	DbHost     string
 	DbPort     string
 }
 
 func getDbInfo(cfg Config) string {
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbPassword, cfg.DbName)
+	return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
+		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
 }
 
 // RebuildDb drops the database and recreates it
 func RebuildDb(cfg Config) error {
-	dbinfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=postgres sslmode=disable",
-		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbPassword)
+	dbinfo := fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=postgres sslmode=disable",
+		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword)
 
 	db, err := sql.Open("postgres", dbinfo)
 
@@ -74,7 +75,6 @@ OWNER = %s
 ENCODING = 'UTF8'
 LC_COLLATE = 'en_US.utf8'
 LC_CTYPE = 'en_US.utf8'
-TABLESPACE = pg_default
 CONNECTION LIMIT = -1
 TEMPLATE template0;`, cfg.DbName, cfg.DbUser)
 

@@ -1,3 +1,35 @@
+
+resource "azurerm_private_dns_zone" "dnsprivatezone" {
+  name                              = var.private_dns_zone_name
+  resource_group_name               = azurerm_resource_group.main.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "dnszonelink" {
+  name                              = var.private_dns_zone_virtual_network_link_name
+  resource_group_name               = azurerm_resource_group.main.name
+  private_dns_zone_name             = azurerm_private_dns_zone.dnsprivatezone.name
+  virtual_network_id                = azurerm_virtual_network.vnet.id
+}
+
+resource "azurerm_private_endpoint" "privateendpoint" {
+  name                              = var.private_endpoint_name
+  location                          = azurerm_resource_group.main.location
+  resource_group_name               = azurerm_resource_group.main.name
+  subnet_id                         = azurerm_subnet.endpointsubnet.id
+
+  private_dns_zone_group {
+    name                            = var.private_dns_zone_group_name
+    private_dns_zone_ids            = [azurerm_private_dns_zone.dnsprivatezone.id]
+  }
+
+  private_service_connection {
+    name                            = var.private_service_connection_name
+    private_connection_resource_id  = azurerm_postgresql_server.main.id
+    subresource_names               = ["postgresqlServer"]
+    is_manual_connection            = false
+  }
+}
+
 resource "azurerm_postgresql_server" "main" {
   name                              = var.postgresql_server_name
   location                          = azurerm_resource_group.main.location

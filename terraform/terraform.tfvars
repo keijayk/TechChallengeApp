@@ -7,6 +7,27 @@ resource_group_name                 ="rg"
 resource_location                   ="japaneast"
 environment                         ="dev"
 
+# networking variable assignment
+virtual_network                      ="vnet"
+virtual_network_address_space        =["10.0.0.0/16"] 
+
+# three subnets
+subnet_addresses                    =[
+                                        {
+                                            ip      = "10.0.1.0/24"
+                                            name     = "snet-1"
+                                        },
+                                        {
+                                            ip      = "10.0.2.0/24"
+                                            name     = "snet-2"
+                                        },
+                                        {
+                                            ip      = "10.0.3.0/24"
+                                            name     = "snet-3"
+                                        }
+                                    ]
+
+
 # PostGreSQL variable assignment
 postgresql_server                   ="psql"
 postgresql_db                       ="northwind"                                   
@@ -34,6 +55,14 @@ app_container_image_name_tag            = "registry-1-stage.docker.io/keijayk/te
 container_registry_sku                  ="Basic"
 container_registry_admin_enabled        =true
 
+
+private_dns_zone_name                           ="privatelink.azurewebsites.net"
+private_dns_zone_virtual_network_link_name      ="dnszonelink"
+private_endpoint_name                           ="dbprivateendpoint"
+private_dns_zone_group_name                     ="privatednszonegroup"
+private_service_connection_name                 ="privateendpointconnection"
+
+
 postgresql_server_name                          ="postgresql-server-kg"
 postgresql_server_sku_name                      ="GP_Gen5_2"
 
@@ -53,3 +82,10 @@ postgresql_database_collation                  ="English_United States.1252"
 postgresql_firewall_rule_name                  ="postgresql-fw-rule"
 postgresql_firewall_rule_start_ip_address      ="0.0.0.0"
 postgresql_firewall_rule_end_ip_address        ="0.0.0.0"
+
+viper_prefix                                   ="VTT"
+
+key_vault_name                         ="devopschallgegevault"
+key_vault_sku_name                     ="standard"
+key_vault_secret_name                  ="postgresscredentials"
+key_vault_postgress_secret_value       ="H@Sh1CoR3!ABC"

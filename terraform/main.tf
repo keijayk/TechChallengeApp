@@ -28,6 +28,10 @@ resource "azurerm_app_service" "main" {
   app_service_plan_id = azurerm_app_service_plan.main.id
   https_only          = true
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   site_config {
     always_on        = true
     linux_fx_version = local.app_service_linux_fx_version
@@ -54,10 +58,32 @@ resource "azurerm_app_service" "main" {
     "DOCKER_REGISTRY_SERVER_URL"          = local.docker_registry_server_url
     "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.acr.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.acr.admin_password
+    "VTT_DBPASSWORD"                      = azurerm_key_vault_secret.postgresscredentials.value
   }
   tags = {
     ManagedBy       = var.tag_managed_by
     ProvisionedWith = var.tag_provisioned_with
   }
 
+  depends_on = [azurerm_postgresql_server.main, azurerm_postgresql_database.main, azurerm_key_vault_secret.postgresscredentials]
 }
+
+
+
+resource "null_resource" "updatedb-create" {
+      provisioner "local-exec" {
+      command = <<-EOT
+      az container create --resource-group ${azurerm_resource_group.main.name} \
+      --name updatedbcontainer \
+      --image ${var.app_container_image_name_tag}  \
+      --ports ${var.app_service_port} --command-line "./TechChallengeApp updatedb" \
+      --subnet ${azurerm_subnet.aci.name} \
+      --vnet ${azurerm_virtual_network.vnet.name} \
+      --restart-policy Never \
+      --environment-variables VTT_DBPASSWORD="${azurerm_key_vault_secret.postgresscredentials.value}"
+      EOT
+      }
+
+      depends_on = [azurerm_postgresql_server.main, azurerm_postgresql_database.main, azurerm_key_vault_secret.postgresscredentials]
+}
+

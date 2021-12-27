@@ -1,3 +1,4 @@
+
 variable "prefix" {
   type        = string
   description = "Short name of the project"
@@ -35,7 +36,28 @@ locals {
 
   container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
   docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
+
+  viper_db_user = upper(format("%s_%s",var.viper_prefix,"DbUser"))
+  viper_db_password = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
+  viper_db_name = upper(format("%s_%s",var.viper_prefix,"DbName"))
+  viper_db_port = upper(format("%s_%s",var.viper_prefix,"DbPort"))
+  viper_db_host = upper(format("%s_%s",var.viper_prefix,"DbHost"))
+  viper_db_host_name = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
+  viper_listen_host = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
+  viper_listen_port = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
 }
+
+
+variable "virtual_network" {
+  type        = string
+  description = "Name of the virtual network where the applicatin should be deployed"
+}
+
+variable "virtual_network_address_space" {
+  type        = list
+  description = "Address space of the virtual network where the applicatin should be deployed"
+}
+
 
 variable "app_service_plan_kind" {
   type        = string
@@ -112,6 +134,37 @@ variable "container_registry_admin_enabled" {
   description = "Container registry admin_enabled flag"
 }
 
+variable private_dns_zone_name {
+  type        = string
+  description = "Private DNS zone name"
+}
+
+variable private_dns_zone_virtual_network_link_name {
+  type        = string
+  description = "Private DNS zone virtual network link name"
+}
+
+variable private_endpoint_name {
+  type        = string
+  description = "Private endpoint name"
+}
+
+
+variable private_dns_zone_group_name {
+  type        = string
+  description = "Private DNS zone Group name"
+}
+
+variable private_service_connection_name {
+  type        = string
+  description = "Private service connection name"
+}
+
+variable postgresql_server_name {
+  type        = string
+  description = "Postgresssl server name"
+}
+
 variable postgresql_server_sku_name {
   type        = string
   description = "Postgresssl SKU name"
@@ -153,8 +206,6 @@ variable postgresql_server_ssl_enforcement_enabled {
   description = "Postgresssl server ssl enforcement enabled flag"
 }
 
-
-
 variable postgresql_database_name {
   type        = string
   description = "Postgresssl database name"
@@ -185,3 +236,28 @@ variable postgresql_firewall_rule_end_ip_address {
   description = "Postgresssl firewall rule end ip address"
 }
 
+variable "viper_prefix" {
+  type        = string
+  description = "The viper prefix used on environment variables"
+}
+
+
+variable key_vault_name {
+  type        = string
+  description = "Vault name"
+}
+
+variable key_vault_sku_name {
+  type        = string
+  description = "Vault SKU name"
+}
+
+variable key_vault_secret_name {
+  type        = string
+  description = "Vault secret name"
+}
+
+variable key_vault_postgress_secret_value {
+  type        = string
+  description = "Vault secret value"
+}

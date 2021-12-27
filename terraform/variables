@@ -1,0 +1,39 @@
+variable "prefix" {
+  type        = string
+  description = "Short name of the project"
+}
+
+variable "resource_group_name" {
+  type              = string
+  description       = "Name of the Resource Group"
+}
+
+variable "resource_location" {
+  type              = string
+  description = "The Azure location where all resources for the application should be created"
+}
+
+variable "environment" {
+  type        = string
+  description = "Name of the target environment where the applicatin should be deployed"
+}
+
+variable "app_container_image_name_tag" {
+  type        = string
+  description = "Application Container image name and tag"
+}
+
+locals {
+  region_abbrev                 = lookup({ japaneast = "ejpn" }, var.resource_location, "ejpn")
+  environment_abbrev            = lower(substr(var.environment, 0, 1)) # first letter of environment
+  environment_abbrev_long       = lookup({ development = "dev" }, lower(var.environment), "dev")
+  resource_group_name           = "rg-${var.prefix}-${local.region_abbrev}-${local.environment_abbrev}"
+
+  app_service_plan_name         = "${var.prefix}-apsp-${local.region_abbrev}-${local.environment_abbrev}"
+  app_service_name              = "${var.prefix}-appservice-${local.region_abbrev}-${local.environment_abbrev}"
+  app_service_linux_fx_version  = "DOCKER|${var.app_container_image_name_tag}"
+
+  container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
+  docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
+}
+

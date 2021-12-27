@@ -32,7 +32,7 @@ RUN cd ui && rice append --exec /TechChallengeApp
 FROM alpine:latest
 
 WORKDIR /TechChallengeApp
-
+EXPOSE 3000
 COPY conf.toml ./conf.toml
 COPY --from=build /TechChallengeApp TechChallengeApp
 

@@ -26,3 +26,5 @@ clean:
 	
 destroy: 
 	terraform -chdir=terraform destroy -auto-approve
+	az keyvault delete --name  devopschallgegevault
+	az keyvault purge --name devopschallgegevault

@@ -261,3 +261,85 @@ variable key_vault_postgress_secret_value {
   type        = string
   description = "Vault secret value"
 }
+
+
+variable autoscale_capacity_default {
+  type        = string
+  description = "Auto scale setting for default capacity"
+}
+
+variable autoscale_capacity_minimum {
+  type        = string
+  description = "Auto scale setting for capacity minimum"
+}
+
+variable autoscale_capacity_maximum {
+  type        = string
+  description = "Auto scale setting for capacity maximum"
+}
+
+variable autoscale_metric_trigger_metric_name {
+  type        = string
+  description = "Auto scale setting for trigger metric name"
+}
+
+variable autoscale_metric_trigger_time_grain {
+    type        = string
+  description = "Auto scale setting for trigger metric time"
+}
+
+variable autoscale_metric_trigger_statistic {
+  type        = string
+  description = "Auto scale setting for trigger statistic"
+} 
+
+variable autoscale_metric_trigger_time_window {
+  type        = string
+  description = "Auto scale setting for trigger time window"
+} 
+
+variable autoscale_metric_trigger_time_aggregation {
+  type        = string
+  description = "Auto scale setting for time aggregation"
+} 
+
+variable autoscale_metric_trigger_operator_gt {
+  type        = string
+  description = "Auto scale setting for trigger operator greater than"
+} 
+
+variable autoscale_metric_trigger_operator_lt {
+  type        = string
+  description = "Auto scale setting for trigger operator less than"
+} 
+
+variable autoscale_metric_trigger_threshold {
+  type        = string
+  description = "Auto scale setting for trigger threshold"
+} 
+
+variable autoscale_scale_action_direction_inc {
+  type        = string
+  description = "Auto scale setting for scale action increase direction"
+} 
+
+variable autoscale_scale_action_type {
+  type        = string
+  description = "Auto scale setting for scale action type"
+} 
+
+variable autoscale_scale_action_value  {
+  type        = string
+  description = "Auto scale setting for scale action value"
+} 
+
+variable autoscale_scale_action_cooldown {
+  type        = string
+  description = "Auto scale setting for scale action cooldown"
+} 
+
+variable autoscale_scale_action_direction_dec {
+  type        = string
+  description = "Auto scale setting for scale action decrease direction"
+} 
+   

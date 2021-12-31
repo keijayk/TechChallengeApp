@@ -89,3 +89,26 @@ key_vault_name                         ="devopschallgegevault"
 key_vault_sku_name                     ="standard"
 key_vault_secret_name                  ="postgresscredentials"
 key_vault_postgress_secret_value       ="H@Sh1CoR3!ABC"
+
+
+autoscale_capacity_default = 1
+autoscale_capacity_minimum = 1
+autoscale_capacity_maximum = 10
+
+
+autoscale_metric_trigger_metric_name        = "CpuPercentage"
+autoscale_metric_trigger_time_grain         = "PT1M"
+autoscale_metric_trigger_statistic          = "Average"
+autoscale_metric_trigger_time_window        = "PT5M"
+autoscale_metric_trigger_time_aggregation   = "Average"
+autoscale_metric_trigger_operator_gt        = "GreaterThan"
+autoscale_metric_trigger_operator_lt        = "LessThan"
+autoscale_metric_trigger_threshold          = 80
+
+
+autoscale_scale_action_direction_inc = "Increase"
+autoscale_scale_action_type      = "ChangeCount"
+autoscale_scale_action_value     = "1"
+autoscale_scale_action_cooldown  = "PT1M"
+autoscale_scale_action_direction_dec = "Decrease"
+   

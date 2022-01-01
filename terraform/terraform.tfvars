@@ -15,22 +15,21 @@ virtual_network_address_space        =["10.0.0.0/16"]
 subnet_addresses                    =[
                                         {
                                             ip      = "10.0.1.0/24"
-                                            name     = "snet-1"
+                                            name     = "snet_1"
                                         },
                                         {
                                             ip      = "10.0.2.0/24"
-                                            name     = "snet-2"
+                                            name     = "snet_2"
                                         },
                                         {
                                             ip      = "10.0.3.0/24"
-                                            name     = "snet-3"
+                                            name     = "snet_3"
                                         }
                                     ]
 
 
-# PostGreSQL variable assignment
-postgresql_server                   ="psql"
-postgresql_db                       ="northwind"                                   
+
+                          
 
 
 # App Service Plan assignment
@@ -62,7 +61,7 @@ private_endpoint_name                           ="dbprivateendpoint"
 private_dns_zone_group_name                     ="privatednszonegroup"
 private_service_connection_name                 ="privateendpointconnection"
 
-
+# PostGreSQL variable assignment
 postgresql_server_name                          ="postgresql-server-kg"
 postgresql_server_sku_name                      ="GP_Gen5_2"
 
@@ -111,4 +110,3 @@ autoscale_scale_action_type      = "ChangeCount"
 autoscale_scale_action_value     = "1"
 autoscale_scale_action_cooldown  = "PT1M"
 autoscale_scale_action_direction_dec = "Decrease"
-   

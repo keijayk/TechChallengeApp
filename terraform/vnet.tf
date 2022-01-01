@@ -9,7 +9,7 @@ resource "azurerm_subnet" "integrationsubnet" {
   name                 = "integrationsubnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_1")].ip]
   delegation {
     name = "delegation"
     service_delegation {
@@ -19,10 +19,10 @@ resource "azurerm_subnet" "integrationsubnet" {
 }
 
 resource "azurerm_subnet" "endpointsubnet" {
-  name                 = "endpointsubnet"
-  resource_group_name  = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.2.0/24"]
+  name                                           = "endpointsubnet"
+  resource_group_name                            = azurerm_resource_group.main.name
+  virtual_network_name                           = azurerm_virtual_network.vnet.name
+  address_prefixes                               = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_2")].ip]
   enforce_private_link_endpoint_network_policies = true
 }
 
@@ -36,7 +36,7 @@ resource "azurerm_subnet" "aci" {
   name                 = "aci"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = "10.0.3.0/24"
+  address_prefixes     = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_3")].ip]
   
   delegation {
     name = "acidelegationservice"

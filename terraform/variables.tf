@@ -58,6 +58,10 @@ variable "virtual_network_address_space" {
   description = "Address space of the virtual network where the applicatin should be deployed"
 }
 
+variable subnet_addresses {
+  type = list
+  description = "list of subnet addresses"
+}
 
 variable "app_service_plan_kind" {
   type        = string
@@ -341,5 +345,4 @@ variable autoscale_scale_action_cooldown {
 variable autoscale_scale_action_direction_dec {
   type        = string
   description = "Auto scale setting for scale action decrease direction"
-} 
-   
+}

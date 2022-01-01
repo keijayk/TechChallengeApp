@@ -11,7 +11,7 @@ variable "resource_group_name" {
 
 variable "resource_location" {
   type              = string
-  description = "The Azure location where all resources for the application should be created"
+  description       = "The Azure location where all resources for the application should be created"
 }
 
 variable "environment" {
@@ -37,14 +37,14 @@ locals {
   container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
   docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
 
-  viper_db_user = upper(format("%s_%s",var.viper_prefix,"DbUser"))
-  viper_db_password = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
-  viper_db_name = upper(format("%s_%s",var.viper_prefix,"DbName"))
-  viper_db_port = upper(format("%s_%s",var.viper_prefix,"DbPort"))
-  viper_db_host = upper(format("%s_%s",var.viper_prefix,"DbHost"))
-  viper_db_host_name = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
-  viper_listen_host = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
-  viper_listen_port = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
+  viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))
+  viper_db_password   = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
+  viper_db_name       = upper(format("%s_%s",var.viper_prefix,"DbName"))
+  viper_db_port       = upper(format("%s_%s",var.viper_prefix,"DbPort"))
+  viper_db_host       = upper(format("%s_%s",var.viper_prefix,"DbHost"))
+  viper_db_host_name  = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
+  viper_listen_host   = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
+  viper_listen_port   = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
 }
 
 
@@ -58,10 +58,21 @@ variable "virtual_network_address_space" {
   description = "Address space of the virtual network where the applicatin should be deployed"
 }
 
-variable subnet_addresses {
-  type = list
+variable "subnet_addresses" {
+  type        = list
   description = "list of subnet addresses"
 }
+
+variable "integration_subnet_name" {
+  type        = string
+  description = "Name of the virtual network subnet for app service"
+} 
+
+variable "container_instance_subnet_name" {
+  type        = string
+  description = "Name of the virtual network subnet for container instance for updating db"
+}
+
 
 variable "app_service_plan_kind" {
   type        = string
@@ -138,104 +149,104 @@ variable "container_registry_admin_enabled" {
   description = "Container registry admin_enabled flag"
 }
 
-variable private_dns_zone_name {
+variable "private_dns_zone_name" {
   type        = string
   description = "Private DNS zone name"
 }
 
-variable private_dns_zone_virtual_network_link_name {
+variable "private_dns_zone_virtual_network_link_name" {
   type        = string
   description = "Private DNS zone virtual network link name"
 }
 
-variable private_endpoint_name {
+variable "private_endpoint_name" {
   type        = string
   description = "Private endpoint name"
 }
 
 
-variable private_dns_zone_group_name {
+variable "private_dns_zone_group_name" {
   type        = string
   description = "Private DNS zone Group name"
 }
 
-variable private_service_connection_name {
+variable "private_service_connection_name" {
   type        = string
   description = "Private service connection name"
 }
 
-variable postgresql_server_name {
+variable "postgresql_server_name" {
   type        = string
   description = "Postgresssl server name"
 }
 
-variable postgresql_server_sku_name {
+variable "postgresql_server_sku_name" {
   type        = string
   description = "Postgresssl SKU name"
 }
 
 
-variable postgresql_server_storage_mb {
+variable "postgresql_server_storage_mb" {
   type        = string
   description = "Postgresssl server storage mb"
 }
 
-variable postgresql_server_backup_retention_days {
+variable "postgresql_server_backup_retention_days" {
   type        = string
   description = "Postgresssl server backup retention days"
 }
 
-variable postgresql_server_geo_redundant_backup_enabled {
+variable "postgresql_server_geo_redundant_backup_enabled" {
   type        = string
   description = "Postgresssl geo redundant backup enabled"
 }
 
-variable postgresql_server_auto_grow_enabled {
+variable "postgresql_server_auto_grow_enabled" {
   type        = string
   description = "Postgresssl server auto grow enabled flag"
 }
 
-variable postgresql_server_administrator_login {
+variable "postgresql_server_administrator_login" {
   type        = string
   description = "Postgresssl server admin login"
 }
 
-variable postgresql_server_version {
+variable "postgresql_server_version" {
   type        = string
   description = "Postgresssl server version"
 }
 
-variable postgresql_server_ssl_enforcement_enabled {
+variable "postgresql_server_ssl_enforcement_enabled" {
   type        = string
   description = "Postgresssl server ssl enforcement enabled flag"
 }
 
-variable postgresql_database_name {
+variable "postgresql_database_name" {
   type        = string
   description = "Postgresssl database name"
 }
 
-variable postgresql_database_charset {
+variable "postgresql_database_charset" {
   type        = string
   description = "Postgresssl database charset"
 }
 
-variable postgresql_database_collation {
+variable "postgresql_database_collation" {
   type        = string
   description = "Postgresssl database collation"
 }
 
-variable postgresql_firewall_rule_name {
+variable "postgresql_firewall_rule_name" {
   type        = string
   description = "Postgresssl firewall rule"
 }
 
-variable postgresql_firewall_rule_start_ip_address {
+variable "postgresql_firewall_rule_start_ip_address" {
   type        = string
   description = "Postgresssl firewall rule startup ip address"
 }
 
-variable postgresql_firewall_rule_end_ip_address {
+variable "postgresql_firewall_rule_end_ip_address" {
   type        = string
   description = "Postgresssl firewall rule end ip address"
 }

@@ -77,7 +77,7 @@ resource "null_resource" "updatedb-create" {
       --name updatedbcontainer \
       --image ${var.app_container_image_name_tag}  \
       --ports ${var.app_service_port} --command-line "./TechChallengeApp updatedb" \
-      --subnet ${azurerm_subnet.aci.name} \
+      --subnet ${azurerm_subnet.container_instance_subnet.name} \
       --vnet ${azurerm_virtual_network.vnet.name} \
       --restart-policy Never \
       --environment-variables VTT_DBPASSWORD="${azurerm_key_vault_secret.postgresscredentials.value}"
@@ -86,4 +86,3 @@ resource "null_resource" "updatedb-create" {
 
       depends_on = [azurerm_postgresql_server.main, azurerm_postgresql_database.main, azurerm_key_vault_secret.postgresscredentials]
 }
-

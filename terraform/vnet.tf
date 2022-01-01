@@ -6,7 +6,7 @@ resource "azurerm_virtual_network" "vnet" {
 }
 
 resource "azurerm_subnet" "integrationsubnet" {
-  name                 = "integrationsubnet"
+  name                 = var.integration_subnet_name
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_1")].ip]
@@ -32,8 +32,8 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnetintegration
   subnet_id       = azurerm_subnet.integrationsubnet.id
 }
 
-resource "azurerm_subnet" "aci" {
-  name                 = "aci"
+resource "azurerm_subnet" "container_instance_subnet" {
+  name                 = var.container_instance_subnet_name
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_3")].ip]

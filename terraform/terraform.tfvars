@@ -28,9 +28,8 @@ subnet_addresses                    =[
                                     ]
 
 
-
-                          
-
+integration_subnet_name = "integrationsubnet"
+container_instance_subnet_name = "updatedbcontainerinstancesubnet"
 
 # App Service Plan assignment
 app_service_plan_kind               ="Linux"
@@ -110,3 +109,4 @@ autoscale_scale_action_type      = "ChangeCount"
 autoscale_scale_action_value     = "1"
 autoscale_scale_action_cooldown  = "PT1M"
 autoscale_scale_action_direction_dec = "Decrease"
+   

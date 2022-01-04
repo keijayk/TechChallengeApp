@@ -94,6 +94,9 @@ I chose the following Azure Components based on the underlying reasons listed fo
   
 * Azure Virtual Networks(VNets) to enable the frontend of the application to access database through a virtual network.
 
+## How the deployment solution meets assessment criteria
+
+The deployment solution satisfies the following assessment criteria as described below. 
 
 ### Security
 

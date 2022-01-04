@@ -92,7 +92,7 @@ I chose the following Azure Components based on the underlying reasons listed fo
 
 * Azure Key Vault [[6](https://azure.microsoft.com/en-us/services/key-vault/#product-overview)] as Secrets storage for storing database credentials.
   
-* Azure Virtual Networks(VNets) to enable the frontend of the application to access database through a virtual network.
+* Azure Virtual Networks(VNets) [[14](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)]to enable the frontend of the application to access database through a virtual network.
 
 ## How the deployment solution meets assessment criteria
 
@@ -106,12 +106,12 @@ The deployment solution satisfies the following assessment criteria as described
 
 - Azure Key Vault as Secret Storage
 
-  The deployment solution is designed in a way that the frontend of the application deployed as Azure App Service with a system-assigned identity [[8](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references)], which is used for accessing the Key Vault secret storage to access the database credentials.
+  The deployment solution is designed in a way that the frontend of the application deployed as Azure App Service with a system-assigned identity [[8](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references)], which is used for securely accessing the Key Vault secret storage to retrieve the database credentials.
 
 
 - Platform security features
   
-  The deployment solution is designed to utilize the platform security features. For instance, using Azure App Service for deploying the frontend of the application benefits from the platform security features such as automated security patching etc.
+  The deployment solution is designed to utilize the platform security features. For instance, using Azure App Service for deploying the frontend of the application benefits from the platform security features such as automated security patching etc. The platform components of Azure App Service are actively secured [[12](https://docs.microsoft.com/en-us/azure/app-service/overview-security)]. There are multiple layer of security options available for Azure Database for PostgreSQL Single Server [[13](https://docs.microsoft.com/en-us/azure/postgresql/concepts-security)]. For example, Azure Database for PostgreSQL uses storage encryption as well as in-transit data encryption. 
 
 
 ### Simplicity
@@ -180,3 +180,6 @@ make clean
 9. https://docs.microsoft.com/en-us/azure/postgresql/concepts-data-access-and-security-private-link
 10. https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell
 11. https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers
+12. https://docs.microsoft.com/en-us/azure/app-service/overview-security
+13. https://docs.microsoft.com/en-us/azure/postgresql/concepts-security 
+14. https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview

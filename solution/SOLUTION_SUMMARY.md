@@ -88,7 +88,7 @@ I chose the following Azure Components based on the underlying reasons listed fo
   -  Handles most of the database management functions such as patching, backups, security with minimal user configuration and control. 
 
 * Azure Container Instance [[5](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview)] for executing `updatedb` task for initializing database. 
-  - Provides fast startup times - quick to iniitilize  data based as a one time operation.
+  - Provides fast startup times - quick to iniitilize database as a one time operation.
 
 * Azure Key Vault [[6](https://azure.microsoft.com/en-us/services/key-vault/#product-overview)] as Secrets storage for storing database credentials.
   
@@ -111,7 +111,7 @@ The deployment solution satisfies the following assessment criteria as described
 
 - Platform security features
   
-  The deployment solution is designed to utilize the platform security features. For instance, using Azure App Serivice for deploying the frontend of the application benefits from the platform security features such as automated security patching etc.
+  The deployment solution is designed to utilize the platform security features. For instance, using Azure App Service for deploying the frontend of the application benefits from the platform security features such as automated security patching etc.
 
 
 ### Simplicity
@@ -168,7 +168,7 @@ make clean
 - Swagger URL: https://devopschallengeservian-appservice-ejpn-d.azurewebsites.net/swagger/dist/
 - Healthcheck URL: https://devopschallengeservian-appservice-ejpn-d.azurewebsites.net/healthcheck/
 
-## Reference
+## References
 1. https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree
 2. https://azure.microsoft.com/en-us/services/app-service/
 3. https://azure.microsoft.com/en-us/services/postgresql/

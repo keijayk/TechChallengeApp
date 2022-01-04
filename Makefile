@@ -2,7 +2,7 @@ SHELL:= /bin/bash
 
 IMAGE=registry-1-stage.docker.io/keijayk/techchallengeapp:dev23
 
-all:    init build deploy
+all:    init build-image push-image deploy
 
 init:
 	terraform -chdir=terraform init

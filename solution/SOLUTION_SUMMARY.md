@@ -91,11 +91,11 @@ I chose the following Azure Components based on the underlying reasons listed fo
   - Provides fast startup times - quick to iniitilize database as a one time operation.
 
 * Azure Key Vault [[6](https://azure.microsoft.com/en-us/services/key-vault/#product-overview)] as Secrets storage for storing database credentials.
- - Integrate with App Service (the frontend app) for advanced secrets management. 
- - Support securely accessing the secrets with a managed identity from App Service (the frontend app).
+  - Integrate with App Service (the frontend app) for advanced secrets management. 
+  - Support securely accessing the secrets with a managed identity from App Service (the frontend app).
   
 * Azure Virtual Networks(VNets) [[14](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)] to enable the frontend of the application to access database through a virtual network.
- - Support App Service (the frontend app) to access other resources such as database in seccure manner.
+  - Support App Service (the frontend app) to access other resources such as database in seccure manner.
 
 ## How the deployment solution meets assessment criteria
 

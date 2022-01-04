@@ -15,61 +15,61 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
 1. Changes in Dockerfile
 
-  To manually configure a custom port like 3000, Azure requires to use the EXPOSE instruction in the Dockerfile and the app setting, WEBSITES_PORT, with a port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
+   To manually configure a custom port like 3000, Azure requires to use the EXPOSE instruction in the Dockerfile and the app setting, WEBSITES_PORT, with a port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
 
-  Expose port:
+   Expose port:
 
-  ```
-  EXPOSE 3000
-  ```
+   ```
+   EXPOSE 3000
+   ```
 
-  Fix the path for swagger.json:
-  ```
-  && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"/swagger/swagger.json"#g' /tmp/swagger/dist/index.html
-  ```
+   Fix the path for swagger.json:
+   ```
+   && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"/swagger/swagger.json"#g' /tmp/swagger/dist/index.html
+   ```
 
-  Copy files related to swagger to the application container image:
-  ```
-  COPY --from=build /tmp/swagger/dist ui/assets/swagger
-  COPY --from=build /swagger.json ui/assets/swagger/swagger.json
-  ```
+   Copy files related to swagger to the application container image:
+   ```
+   COPY --from=build /tmp/swagger/dist ui/assets/swagger
+   COPY --from=build /swagger.json ui/assets/swagger/swagger.json
+   ```
 
 
 2. Changes in the frontend of the application connecting to DB.
 
-  Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username should be in <username@hostname> format.
+   Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username should be in <username@hostname> format.
 
-  The following changes were done to make the DB connection from the frontend of the application.
+   The following changes were done to make the DB connection from the frontend of the application.
 
-  - config/config.go 
+   - config/config.go 
 
-  ```
-  v.SetDefault("DbHostName", "localhost")
+   ```
+   v.SetDefault("DbHostName", "localhost")
 
-  conf.DbHostName = strings.TrimSpace(v.GetString("DbHostName"))
-  ```
+   conf.DbHostName = strings.TrimSpace(v.GetString("DbHostName"))
+   ```
 
-  - db/db.go
+   - db/db.go
 
-  ```
-  return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
+   ```
+   return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
       cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
-  ```
+   ```
 
-  - cmd/root.go
+   - cmd/root.go
 
-  ```
-  cfg.UI.DB.DbHostName = conf.DbHostName
-  ```
+   ```
+   cfg.UI.DB.DbHostName = conf.DbHostName
+   ```
 
 
-  - conf.toml
+   - conf.toml
 
-  ```
-  "DbHost" = "postgresql-server-kg.postgres.database.azure.com"
-  "DbHostName" = "postgresql-server-kg"
-  "ListenHost" = "0.0.0.0"
-  ```
+   ```
+   "DbHost" = "postgresql-server-kg.postgres.database.azure.com"
+   "DbHostName" = "postgresql-server-kg"
+   "ListenHost" = "0.0.0.0"
+   ```
 
 ## High level architectural overview of the deployment.
 

@@ -15,61 +15,61 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
 1. Changes in Dockerfile
 
-To manually configure a custom port like 3000, Azure requires to use the EXPOSE instruction in the Dockerfile and the app setting, WEBSITES_PORT, with a port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
+  To manually configure a custom port like 3000, Azure requires to use the EXPOSE instruction in the Dockerfile and the app setting, WEBSITES_PORT, with a port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
 
-Expose port:
+  Expose port:
 
-```
-EXPOSE 3000
-```
+  ```
+  EXPOSE 3000
+  ```
 
-Fix the path for swagger.json:
-```
- && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"/swagger/swagger.json"#g' /tmp/swagger/dist/index.html
-```
+  Fix the path for swagger.json:
+  ```
+  && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"/swagger/swagger.json"#g' /tmp/swagger/dist/index.html
+  ```
 
-Copy files related to swagger to the application container image:
-```
-COPY --from=build /tmp/swagger/dist ui/assets/swagger
-COPY --from=build /swagger.json ui/assets/swagger/swagger.json
-```
-
-
-2. Changes in connecting to DB.
-
-Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username should be in <username@hostname> format.
-
-The following changes were done to make the DB connection from the Frontend of the application.
-
-- config/config.go 
-
-```
-v.SetDefault("DbHostName", "localhost")
-
-conf.DbHostName = strings.TrimSpace(v.GetString("DbHostName"))
-```
-
-- db/db.go
-
-```
-return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
-		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
-```
-
-- cmd/root.go
-
-```
-cfg.UI.DB.DbHostName = conf.DbHostName
-```
+  Copy files related to swagger to the application container image:
+  ```
+  COPY --from=build /tmp/swagger/dist ui/assets/swagger
+  COPY --from=build /swagger.json ui/assets/swagger/swagger.json
+  ```
 
 
-- conf.toml
+2. Changes in the frontend of the application connecting to DB.
 
-```
-"DbHost" = "postgresql-server-kg.postgres.database.azure.com"
-"DbHostName" = "postgresql-server-kg"
-"ListenHost" = "0.0.0.0"
-```
+  Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username should be in <username@hostname> format.
+
+  The following changes were done to make the DB connection from the frontend of the application.
+
+  - config/config.go 
+
+  ```
+  v.SetDefault("DbHostName", "localhost")
+
+  conf.DbHostName = strings.TrimSpace(v.GetString("DbHostName"))
+  ```
+
+  - db/db.go
+
+  ```
+  return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
+      cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
+  ```
+
+  - cmd/root.go
+
+  ```
+  cfg.UI.DB.DbHostName = conf.DbHostName
+  ```
+
+
+  - conf.toml
+
+  ```
+  "DbHost" = "postgresql-server-kg.postgres.database.azure.com"
+  "DbHostName" = "postgresql-server-kg"
+  "ListenHost" = "0.0.0.0"
+  ```
 
 ## High level architectural overview of the deployment.
 
@@ -79,11 +79,11 @@ The deployment solution was designed based on the guide [[1](https://docs.micros
 I chose the following Azure Components based on the underlying reasons listed for each one of them.
 
 * Azure App Service [[2](https://azure.microsoft.com/en-us/services/app-service/)] for deploying the `TechChallengeApp`frontend component.
-  - a fully managed service that includes built-in infrastructure maintenance, security patching - simplify operations
+  - A fully managed service that includes built-in infrastructure maintenance, security patching - simplify operations
   - Supports auto scaling: it can be scaled up or scaled out to handle the changing demand - leads to highly available frontend
   - Supports for virtual networks - leads to network segmentation implemented in this solution. 
 
-* Azure Database for PostgreSQL [[3](https://azure.microsoft.com/en-us/services/postgresql/) Single Server [4](https://docs.microsoft.com/en-us/azure/postgresql/overview-single-server)] as database given the requirement.
+* Azure Database for PostgreSQL [[3](https://azure.microsoft.com/en-us/services/postgresql/)] Single Server [[4](https://docs.microsoft.com/en-us/azure/postgresql/overview-single-server)] as database given the requirement.
   -  Offers a single-node database service with built-in high availability. 
   -  Handles most of the database management functions such as patching, backups, security with minimal user configuration and control. 
 
@@ -92,7 +92,7 @@ I chose the following Azure Components based on the underlying reasons listed fo
 
 * Azure Key Vault [[6](https://azure.microsoft.com/en-us/services/key-vault/#product-overview)] as Secrets storage for storing database credentials.
   
-* Azure Virtual Networks(VNets) to enable Web application to access database through a virtual network.
+* Azure Virtual Networks(VNets) to enable the frontend of the application to access database through a virtual network.
 
 
 ### Security
@@ -175,5 +175,5 @@ make clean
 7. https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview
 8. https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references
 9. https://docs.microsoft.com/en-us/azure/postgresql/concepts-data-access-and-security-private-link
-10.https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell
-11.https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers
+10. https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell
+11. https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers

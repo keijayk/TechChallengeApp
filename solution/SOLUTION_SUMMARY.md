@@ -51,7 +51,7 @@ The deployment solution was designed based on the guide [1](https://docs.microso
 ### Azure Components
 I chose the following Azure Components based on the underlying reasons listed for each one of them.
 
-* Azure App Service [2](https://azure.microsoft.com/en-us/services/app-service/) for deploying the `TechChallengeApp`frontend component.
+* Azure App Service [[2](https://azure.microsoft.com/en-us/services/app-service/)] for deploying the `TechChallengeApp`frontend component.
 
   Azure App Services:
   - is a fully managed service that includes built-in infrastructure maintenance, security patching - simplify operations

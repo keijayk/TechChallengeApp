@@ -24,6 +24,11 @@ variable "app_container_image_name_tag" {
   description = "Application Container image name and tag"
 }
 
+variable container_registry_display_name {
+  type        = string
+  description = "Application container registry display name"
+}
+
 locals {
   region_abbrev                 = lookup({ japaneast = "ejpn" }, var.resource_location, "ejpn")
   environment_abbrev            = lower(substr(var.environment, 0, 1)) # first letter of environment
@@ -32,9 +37,11 @@ locals {
 
   app_service_plan_name         = "${var.prefix}-apsp-${local.region_abbrev}-${local.environment_abbrev}"
   app_service_name              = "${var.prefix}-appservice-${local.region_abbrev}-${local.environment_abbrev}"
-  app_service_linux_fx_version  = "DOCKER|${var.app_container_image_name_tag}"
+  app_service_linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
+  app_container_image           = "${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
 
   container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
+
   docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
 
   viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))

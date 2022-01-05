@@ -75,14 +75,29 @@ resource "null_resource" "updatedb-create" {
       command = <<-EOT
       az container create --resource-group ${azurerm_resource_group.main.name} \
       --name updatedbcontainer \
-      --image ${var.app_container_image_name_tag}  \
+      --image ${local.app_container_image}  \
       --ports ${var.app_service_port} --command-line "./TechChallengeApp updatedb" \
       --subnet ${azurerm_subnet.container_instance_subnet.name} \
       --vnet ${azurerm_virtual_network.vnet.name} \
       --restart-policy Never \
-      --environment-variables VTT_DBPASSWORD="${azurerm_key_vault_secret.postgresscredentials.value}"
+      --environment-variables VTT_DBPASSWORD="${azurerm_key_vault_secret.postgresscredentials.value}" \
+      --registry-username ${azurerm_container_registry.acr.admin_username} \
+      --registry-password ${azurerm_container_registry.acr.admin_password}
       EOT
       }
 
       depends_on = [azurerm_postgresql_server.main, azurerm_postgresql_database.main, azurerm_key_vault_secret.postgresscredentials]
+}
+
+
+resource "null_resource" "docker_push" {
+      provisioner "local-exec" {
+      command = <<-EOT
+        docker tag "${var.app_container_image_name_tag}" ${local.app_container_image}}
+        docker login --username ${azurerm_container_registry.acr.admin_username} --password ${azurerm_container_registry.acr.admin_password} ${azurerm_container_registry.acr.login_server}
+        docker push ${local.app_container_image}
+      EOT
+      }
+
+      depends_on = [azurerm_container_registry.acr, azurerm_role_assignment.acr-assignment ]
 }

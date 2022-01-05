@@ -1,8 +1,8 @@
 SHELL:= /bin/bash
 
-IMAGE=registry-1-stage.docker.io/keijayk/techchallengeapp:dev23
+IMAGE=techchallengeapp:dev
 
-all:    init build-image push-image deploy
+all:  init build-image deploy
 
 init:
 	terraform -chdir=terraform init
@@ -12,9 +12,6 @@ build:
 
 build-image: build
 	docker build -f Dockerfile -t $(IMAGE) .
-
-push-image:
-	docker push $(IMAGE)
 
 deploy:
 	terraform -chdir=terraform apply -auto-approve

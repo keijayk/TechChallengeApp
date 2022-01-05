@@ -124,7 +124,7 @@ The deployment solution satisfies the following assessment criteria as described
   The deployment solution is designed to enable auto scaling and highly available frontend by using a) Azure App Service for the frontend of the application and b) Azure Database for PostgreSQL-Single server as highly available Database.
   
 
-## Process instructions for provisioning your solution.
+## Process instructions for provisioning the solution.
 
 ### Deploying Solution on Azure
 

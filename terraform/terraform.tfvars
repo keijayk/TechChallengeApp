@@ -48,8 +48,9 @@ app_service_port                                    =3000
 
 app_service_monitor_autoscale_name      ="AutoscaleSetting"
 
-app_container_image_name_tag            = "registry-1-stage.docker.io/keijayk/techchallengeapp:dev23"
+app_container_image_name_tag            = "techchallengeapp:dev23"
 
+container_registry_display_name         ="acr-app"
 container_registry_sku                  ="Basic"
 container_registry_admin_enabled        =true
 

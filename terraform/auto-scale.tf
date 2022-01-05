@@ -1,8 +1,8 @@
-resource "azurerm_monitor_autoscale_setting" "main" {
+resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   name                = var.app_service_monitor_autoscale_name
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
-  target_resource_id  = azurerm_app_service_plan.main.id
+  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.resource_group.location
+  target_resource_id  = azurerm_app_service_plan.app_service_plan.id
 
   profile {
     name = "defaultProfile"
@@ -16,7 +16,7 @@ resource "azurerm_monitor_autoscale_setting" "main" {
     rule {
       metric_trigger {
         metric_name        = var.autoscale_metric_trigger_metric_name
-        metric_resource_id = azurerm_app_service_plan.main.id
+        metric_resource_id = azurerm_app_service_plan.app_service_plan.id
         time_grain         = var.autoscale_metric_trigger_time_grain
         statistic          = var.autoscale_metric_trigger_statistic
         time_window        = var.autoscale_metric_trigger_time_window
@@ -36,7 +36,7 @@ resource "azurerm_monitor_autoscale_setting" "main" {
     rule {
       metric_trigger {
         metric_name        = var.autoscale_metric_trigger_metric_name
-        metric_resource_id = azurerm_app_service_plan.main.id
+        metric_resource_id = azurerm_app_service_plan.app_service_plan.id
         time_grain         = var.autoscale_metric_trigger_time_grain
         statistic          = var.autoscale_metric_trigger_statistic
         time_window        = var.autoscale_metric_trigger_time_window

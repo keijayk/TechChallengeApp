@@ -1,28 +1,28 @@
 output "app_service_name" {
-  value = azurerm_app_service.main.name
+  value = azurerm_app_service.app_service.name
 }
 
 output "app_service_default_hostname" {
-  value = "https://${azurerm_app_service.main.default_site_hostname}"
+  value = "https://${azurerm_app_service.app_service.default_site_hostname}"
 }
 
-output "acr_name" {
-  value = azurerm_container_registry.acr.name
+output "container_registry_name" {
+  value = azurerm_container_registry.container_registry.name
 }
 
-output "resource_group" {
-    value = azurerm_resource_group.main.name
+output "resource_group_name" {
+    value = azurerm_resource_group.resource_group.name
 }
 
 output "key_vault_endpoint" {
-  value = azurerm_key_vault.main.vault_uri
+  value = azurerm_key_vault.key_vault.vault_uri
 }
 
 output "key_vault_id" {
-  value = azurerm_key_vault.main.id
+  value = azurerm_key_vault.key_vault.id
 }
 
 
 output "application_identity_principal_id" {
-  value = "${azurerm_app_service.main.identity.0.principal_id}"
+  value = azurerm_app_service.app_service.identity.0.principal_id
 }

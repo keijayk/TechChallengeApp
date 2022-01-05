@@ -29,8 +29,9 @@ subnet_addresses                    =  [
                                         }
                                       ]
 
-integration_subnet_name             =  "integrationsubnet"
-container_instance_subnet_name      =  "updatedbcontainerinstancesubnet"
+integration_subnet_name             =  "integration-subnet"
+container_instance_subnet_name      =  "updatedbcontainerinstance-subnet"
+endpoint_subnet_name                =  "endpoint-subnet"
 
 private_dns_zone_name                           =  "privatelink.azurewebsites.net"
 private_dns_zone_virtual_network_link_name      =  "dnszonelink"
@@ -79,9 +80,10 @@ autoscale_scale_action_direction_dec        =  "Decrease"
 app_container_image_name_tag        =  "techchallengeapp:dev23"
 
 # Container registry assignment
-container_registry_display_name     =  "acr-app"
+container_registry_display_name     =  "container-registry-app"
 container_registry_sku              =  "Basic"
 container_registry_admin_enabled    =  true
+role_definition_name                =  "Contributor"
 
 # PostGresSQL database assignment
 postgresql_server_name                         =  "postgresql-server-kg"
@@ -106,7 +108,7 @@ postgresql_firewall_rule_end_ip_address        =  "0.0.0.0"
 # Key vault assignment
 key_vault_name                         =  "devopschallgegevault"
 key_vault_sku_name                     =  "standard"
-key_vault_secret_name                  =  "postgresscredentials"
+key_vault_secret_name                  =  "postgress-credentials"
 key_vault_postgress_secret_value       =  "H@Sh1CoR3!ABC"
 
 

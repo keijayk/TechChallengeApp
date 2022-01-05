@@ -64,6 +64,11 @@ variable "container_instance_subnet_name" {
   description = "Name of the virtual network subnet for container instance for updating db"
 }
 
+variable "endpoint_subnet_name" {
+  type        = string
+  description = "Name of the virtual network subnet for database"
+}
+
 variable "private_dns_zone_name" {
   type        = string
   description = "Private DNS zone name"
@@ -248,6 +253,11 @@ variable "container_registry_admin_enabled" {
   description = "Container registry admin_enabled flag"
 }
 
+variable "role_definition_name" {
+  type        = string
+  description = "Container registry role definition name"
+}
+
 # database
 
 variable "postgresql_server_name" {
@@ -356,12 +366,12 @@ locals {
 
   app_service_plan_name         = "${var.prefix}-apsp-${local.region_abbrev}-${local.environment_abbrev}"
   app_service_name              = "${var.prefix}-appservice-${local.region_abbrev}-${local.environment_abbrev}"
-  app_service_linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
-  app_container_image           = "${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
+  app_service_linux_fx_version  = "DOCKER|${azurerm_container_registry.container_registry.login_server}/${var.app_container_image_name_tag}"
+  app_container_image           = "${azurerm_container_registry.container_registry.login_server}/${var.app_container_image_name_tag}"
 
   container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
 
-  docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
+  docker_registry_server_url    = "https://${azurerm_container_registry.container_registry.login_server}"  # url doesn't have https
 
   viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))
   viper_db_password   = upper(format("%s_%s",var.viper_prefix,"DbPassword"))

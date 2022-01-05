@@ -1,8 +1,26 @@
+# general
 
 variable "prefix" {
   type        = string
   description = "Short name of the project"
 }
+
+variable "viper_prefix" {
+  type        = string
+  description = "The viper prefix used on environment variables"
+}
+
+variable "tag_managed_by" {
+  type        = string
+  description = "ManagedBy tag"
+}
+
+variable "tag_provisioned_with" {
+  type        = string
+  description = "ProvisionedWith tag"
+}
+
+# resource group
 
 variable "resource_group_name" {
   type              = string
@@ -19,41 +37,7 @@ variable "environment" {
   description = "Name of the target environment where the applicatin should be deployed"
 }
 
-variable "app_container_image_name_tag" {
-  type        = string
-  description = "Application Container image name and tag"
-}
-
-variable container_registry_display_name {
-  type        = string
-  description = "Application container registry display name"
-}
-
-locals {
-  region_abbrev                 = lookup({ japaneast = "ejpn" }, var.resource_location, "ejpn")
-  environment_abbrev            = lower(substr(var.environment, 0, 1)) # first letter of environment
-  environment_abbrev_long       = lookup({ development = "dev" }, lower(var.environment), "dev")
-  resource_group_name           = "rg-${var.prefix}-${local.region_abbrev}-${local.environment_abbrev}"
-
-  app_service_plan_name         = "${var.prefix}-apsp-${local.region_abbrev}-${local.environment_abbrev}"
-  app_service_name              = "${var.prefix}-appservice-${local.region_abbrev}-${local.environment_abbrev}"
-  app_service_linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
-  app_container_image           = "${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
-
-  container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
-
-  docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
-
-  viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))
-  viper_db_password   = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
-  viper_db_name       = upper(format("%s_%s",var.viper_prefix,"DbName"))
-  viper_db_port       = upper(format("%s_%s",var.viper_prefix,"DbPort"))
-  viper_db_host       = upper(format("%s_%s",var.viper_prefix,"DbHost"))
-  viper_db_host_name  = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
-  viper_listen_host   = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
-  viper_listen_port   = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
-}
-
+# network
 
 variable "virtual_network" {
   type        = string
@@ -80,6 +64,32 @@ variable "container_instance_subnet_name" {
   description = "Name of the virtual network subnet for container instance for updating db"
 }
 
+variable "private_dns_zone_name" {
+  type        = string
+  description = "Private DNS zone name"
+}
+
+variable "private_dns_zone_virtual_network_link_name" {
+  type        = string
+  description = "Private DNS zone virtual network link name"
+}
+
+variable "private_endpoint_name" {
+  type        = string
+  description = "Private endpoint name"
+}
+
+variable "private_dns_zone_group_name" {
+  type        = string
+  description = "Private DNS zone Group name"
+}
+
+variable "private_service_connection_name" {
+  type        = string
+  description = "Private service connection name"
+}
+
+# App service
 
 variable "app_service_plan_kind" {
   type        = string
@@ -94,16 +104,6 @@ variable "app_service_plan_sku_tier" {
 variable "app_service_plan_sku_size" {
   type        = string
   description = "App service plan Stock Keeping Unit size"
-}
-
-variable "tag_managed_by" {
-  type        = string
-  description = "ManagedBy tag"
-}
-
-variable "tag_provisioned_with" {
-  type        = string
-  description = "ProvisionedWith tag"
 }
 
 variable "app_service_app_command_line" {
@@ -145,145 +145,6 @@ variable "app_service_monitor_autoscale_name" {
   type        = string
   description = "App service auto scale name"
 }
-
-variable "container_registry_sku" {
-  type        = string
-  description = "Container registry SKU"
-}
-
-variable "container_registry_admin_enabled" {
-  type        = string
-  description = "Container registry admin_enabled flag"
-}
-
-variable "private_dns_zone_name" {
-  type        = string
-  description = "Private DNS zone name"
-}
-
-variable "private_dns_zone_virtual_network_link_name" {
-  type        = string
-  description = "Private DNS zone virtual network link name"
-}
-
-variable "private_endpoint_name" {
-  type        = string
-  description = "Private endpoint name"
-}
-
-
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Private DNS zone Group name"
-}
-
-variable "private_service_connection_name" {
-  type        = string
-  description = "Private service connection name"
-}
-
-variable "postgresql_server_name" {
-  type        = string
-  description = "Postgresssl server name"
-}
-
-variable "postgresql_server_sku_name" {
-  type        = string
-  description = "Postgresssl SKU name"
-}
-
-
-variable "postgresql_server_storage_mb" {
-  type        = string
-  description = "Postgresssl server storage mb"
-}
-
-variable "postgresql_server_backup_retention_days" {
-  type        = string
-  description = "Postgresssl server backup retention days"
-}
-
-variable "postgresql_server_geo_redundant_backup_enabled" {
-  type        = string
-  description = "Postgresssl geo redundant backup enabled"
-}
-
-variable "postgresql_server_auto_grow_enabled" {
-  type        = string
-  description = "Postgresssl server auto grow enabled flag"
-}
-
-variable "postgresql_server_administrator_login" {
-  type        = string
-  description = "Postgresssl server admin login"
-}
-
-variable "postgresql_server_version" {
-  type        = string
-  description = "Postgresssl server version"
-}
-
-variable "postgresql_server_ssl_enforcement_enabled" {
-  type        = string
-  description = "Postgresssl server ssl enforcement enabled flag"
-}
-
-variable "postgresql_database_name" {
-  type        = string
-  description = "Postgresssl database name"
-}
-
-variable "postgresql_database_charset" {
-  type        = string
-  description = "Postgresssl database charset"
-}
-
-variable "postgresql_database_collation" {
-  type        = string
-  description = "Postgresssl database collation"
-}
-
-variable "postgresql_firewall_rule_name" {
-  type        = string
-  description = "Postgresssl firewall rule"
-}
-
-variable "postgresql_firewall_rule_start_ip_address" {
-  type        = string
-  description = "Postgresssl firewall rule startup ip address"
-}
-
-variable "postgresql_firewall_rule_end_ip_address" {
-  type        = string
-  description = "Postgresssl firewall rule end ip address"
-}
-
-variable "viper_prefix" {
-  type        = string
-  description = "The viper prefix used on environment variables"
-}
-
-
-variable key_vault_name {
-  type        = string
-  description = "Vault name"
-}
-
-variable key_vault_sku_name {
-  type        = string
-  description = "Vault SKU name"
-}
-
-variable key_vault_secret_name {
-  type        = string
-  description = "Vault secret name"
-}
-
-variable key_vault_postgress_secret_value {
-  type        = string
-  description = "Vault secret value"
-}
-
 
 variable autoscale_capacity_default {
   type        = string
@@ -364,3 +225,152 @@ variable autoscale_scale_action_direction_dec {
   type        = string
   description = "Auto scale setting for scale action decrease direction"
 }
+
+# container
+
+variable "app_container_image_name_tag" {
+  type        = string
+  description = "Application Container image name and tag"
+}
+
+variable container_registry_display_name {
+  type        = string
+  description = "Application container registry display name"
+}
+
+variable "container_registry_sku" {
+  type        = string
+  description = "Container registry SKU"
+}
+
+variable "container_registry_admin_enabled" {
+  type        = string
+  description = "Container registry admin_enabled flag"
+}
+
+# database
+
+variable "postgresql_server_name" {
+  type        = string
+  description = "Postgresssl server name"
+}
+
+variable "postgresql_server_sku_name" {
+  type        = string
+  description = "Postgresssl SKU name"
+}
+
+variable "postgresql_server_storage_mb" {
+  type        = string
+  description = "Postgresssl server storage mb"
+}
+
+variable "postgresql_server_backup_retention_days" {
+  type        = string
+  description = "Postgresssl server backup retention days"
+}
+
+variable "postgresql_server_geo_redundant_backup_enabled" {
+  type        = string
+  description = "Postgresssl geo redundant backup enabled"
+}
+
+variable "postgresql_server_auto_grow_enabled" {
+  type        = string
+  description = "Postgresssl server auto grow enabled flag"
+}
+
+variable "postgresql_server_administrator_login" {
+  type        = string
+  description = "Postgresssl server admin login"
+}
+
+variable "postgresql_server_version" {
+  type        = string
+  description = "Postgresssl server version"
+}
+
+variable "postgresql_server_ssl_enforcement_enabled" {
+  type        = string
+  description = "Postgresssl server ssl enforcement enabled flag"
+}
+
+variable "postgresql_database_name" {
+  type        = string
+  description = "Postgresssl database name"
+}
+
+variable "postgresql_database_charset" {
+  type        = string
+  description = "Postgresssl database charset"
+}
+
+variable "postgresql_database_collation" {
+  type        = string
+  description = "Postgresssl database collation"
+}
+
+variable "postgresql_firewall_rule_name" {
+  type        = string
+  description = "Postgresssl firewall rule"
+}
+
+variable "postgresql_firewall_rule_start_ip_address" {
+  type        = string
+  description = "Postgresssl firewall rule startup ip address"
+}
+
+variable "postgresql_firewall_rule_end_ip_address" {
+  type        = string
+  description = "Postgresssl firewall rule end ip address"
+}
+
+# key vault
+
+variable key_vault_name {
+  type        = string
+  description = "Vault name"
+}
+
+variable key_vault_sku_name {
+  type        = string
+  description = "Vault SKU name"
+}
+
+variable key_vault_secret_name {
+  type        = string
+  description = "Vault secret name"
+}
+
+variable key_vault_postgress_secret_value {
+  type        = string
+  description = "Vault secret value"
+}
+
+
+locals {
+  region_abbrev                 = lookup({ japaneast = "ejpn" }, var.resource_location, "ejpn")
+  environment_abbrev            = lower(substr(var.environment, 0, 1)) # first letter of environment
+  environment_abbrev_long       = lookup({ development = "dev" }, lower(var.environment), "dev")
+  resource_group_name           = "rg-${var.prefix}-${local.region_abbrev}-${local.environment_abbrev}"
+
+  app_service_plan_name         = "${var.prefix}-apsp-${local.region_abbrev}-${local.environment_abbrev}"
+  app_service_name              = "${var.prefix}-appservice-${local.region_abbrev}-${local.environment_abbrev}"
+  app_service_linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
+  app_container_image           = "${azurerm_container_registry.acr.login_server}/${var.app_container_image_name_tag}"
+
+  container_registry_name       = "${var.prefix}acr${local.region_abbrev}${local.environment_abbrev}" 
+
+  docker_registry_server_url    = "https://${azurerm_container_registry.acr.login_server}"  # url doesn't have https
+
+  viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))
+  viper_db_password   = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
+  viper_db_name       = upper(format("%s_%s",var.viper_prefix,"DbName"))
+  viper_db_port       = upper(format("%s_%s",var.viper_prefix,"DbPort"))
+  viper_db_host       = upper(format("%s_%s",var.viper_prefix,"DbHost"))
+  viper_db_host_name  = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
+  viper_listen_host   = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
+  viper_listen_port   = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
+}
+
+

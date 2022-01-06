@@ -151,6 +151,11 @@ variable "app_service_monitor_autoscale_name" {
   description = "App service auto scale name"
 }
 
+variable autoscale_profile_name {
+  type        = string
+  description = "Auto scale setting profile name"
+}
+
 variable autoscale_capacity_default {
   type        = string
   description = "Auto scale setting for default capacity"
@@ -261,6 +266,11 @@ variable "role_definition_name" {
 variable container_name {
   type        = string
   description = "Name of the container for updating db"
+}
+
+variable container_delegation {
+  type        = string
+  description = "Name of container instance delegation"
 }
 
 # database

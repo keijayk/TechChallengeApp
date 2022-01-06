@@ -55,9 +55,10 @@ app_service_port                                    =  3000
 
 app_service_monitor_autoscale_name      =  "AutoscaleSetting"
 
-autoscale_capacity_default =  1
-autoscale_capacity_minimum =  1
-autoscale_capacity_maximum =  10
+autoscale_profile_name      = "default-profile"
+autoscale_capacity_default  =  1
+autoscale_capacity_minimum  =  1
+autoscale_capacity_maximum  =  10
 
 
 autoscale_metric_trigger_metric_name        =  "CpuPercentage"
@@ -85,7 +86,8 @@ container_registry_sku              =  "Basic"
 container_registry_admin_enabled    =  true
 role_definition_name                =  "Contributor"
 
-container_name = "updatedb-container"
+container_name          = "updatedb-container"
+container_delegation    = "container-delegation-service"
 
 # PostGresSQL database assignment
 postgresql_server_name                         =  "postgresql-server-kg"

@@ -34,7 +34,7 @@ resource "azurerm_subnet" "container_instance_subnet" {
   address_prefixes     = [var.subnet_addresses[index(var.subnet_addresses.*.name, "snet_3")].ip]
   
   delegation {
-    name = "acidelegationservice"
+    name = var.container_delegation
 
     service_delegation {
       name    = "Microsoft.ContainerInstance/containerGroups"

@@ -6,7 +6,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   target_resource_id  = azurerm_app_service_plan.app_service_plan.id
 
   profile {
-    name = "defaultProfile"
+    name = var.autoscale_profile_name
 
     capacity {
       default = var.autoscale_capacity_default

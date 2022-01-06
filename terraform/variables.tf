@@ -258,6 +258,11 @@ variable "role_definition_name" {
   description = "Container registry role definition name"
 }
 
+variable container_name {
+  type        = string
+  description = "Name of the container for updating db"
+}
+
 # database
 
 variable "postgresql_server_name" {
@@ -357,6 +362,10 @@ variable key_vault_postgress_secret_value {
   description = "Vault secret value"
 }
 
+variable expected_log_message {
+  type        = string
+  description = "Expected log message when completing updatedb"
+}
 
 locals {
   region_abbrev                 = lookup({ japaneast = "ejpn" }, var.resource_location, "ejpn")

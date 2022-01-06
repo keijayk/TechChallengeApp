@@ -85,6 +85,8 @@ container_registry_sku              =  "Basic"
 container_registry_admin_enabled    =  true
 role_definition_name                =  "Contributor"
 
+container_name = "updatedb-container"
+
 # PostGresSQL database assignment
 postgresql_server_name                         =  "postgresql-server-kg"
 postgresql_server_sku_name                     =  "GP_Gen5_2"
@@ -112,3 +114,5 @@ key_vault_secret_name                  =  "postgress-credentials"
 key_vault_postgress_secret_value       =  "H@Sh1CoR3!ABC"
 
 
+# Expected log message when completing updatedb
+expected_log_message = "Seeding table with data"

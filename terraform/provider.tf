@@ -1,5 +1,4 @@
-# Explicit declaration of dependency on more providers.
-# Their configuration is being passed from the main module.
+# Declaration providers.
 terraform {
 }
 

@@ -22,7 +22,6 @@ output "key_vault_id" {
   value = azurerm_key_vault.key_vault.id
 }
 
-
 output "application_identity_principal_id" {
   value = azurerm_app_service.app_service.identity.0.principal_id
 }

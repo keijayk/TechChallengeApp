@@ -1,3 +1,4 @@
+# Create auto scale setting for app service
 resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   name                = var.app_service_monitor_autoscale_name
   resource_group_name = azurerm_resource_group.resource_group.name

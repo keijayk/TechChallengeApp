@@ -1,35 +1,4 @@
-
-resource "azurerm_private_dns_zone" "private_dns_zone" {
-  name                = var.private_dns_zone_name
-  resource_group_name = azurerm_resource_group.resource_group.name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_virtual_network_link" {
-  name                  = var.private_dns_zone_virtual_network_link_name
-  resource_group_name   = azurerm_resource_group.resource_group.name
-  private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone.name
-  virtual_network_id    = azurerm_virtual_network.virtual_network.id
-}
-
-resource "azurerm_private_endpoint" "private_endpoint" {
-  name                = var.private_endpoint_name
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
-  subnet_id           = azurerm_subnet.endpoint_subnet.id
-
-  private_dns_zone_group {
-    name                 = var.private_dns_zone_group_name
-    private_dns_zone_ids = [azurerm_private_dns_zone.private_dns_zone.id]
-  }
-
-  private_service_connection {
-    name                            = var.private_service_connection_name
-    private_connection_resource_id  = azurerm_postgresql_server.postgresql_server.id
-    subresource_names               = ["postgresqlServer"]
-    is_manual_connection            = false
-  }
-}
-
+# Create postgressql server
 resource "azurerm_postgresql_server" "postgresql_server" {
   name                          = var.postgresql_server_name
   location                      = azurerm_resource_group.resource_group.location
@@ -48,6 +17,7 @@ resource "azurerm_postgresql_server" "postgresql_server" {
   ssl_enforcement_enabled       = var.postgresql_server_ssl_enforcement_enabled
 }
 
+# Create postgressql database
 resource "azurerm_postgresql_database" "postgresql_database" {
   name                = var.postgresql_database_name
   resource_group_name = azurerm_resource_group.resource_group.name
@@ -56,6 +26,7 @@ resource "azurerm_postgresql_database" "postgresql_database" {
   collation           = var.postgresql_database_collation
 }
 
+# Create postgressql firewall rule
 resource "azurerm_postgresql_firewall_rule" "postgresql_firewall_rule" {
   name                = var.postgresql_firewall_rule_name
   resource_group_name = azurerm_resource_group.resource_group.name

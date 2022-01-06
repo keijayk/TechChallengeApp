@@ -1,8 +1,10 @@
+# Create resource group
 resource "azurerm_resource_group" "resource_group" {
   name     = local.resource_group_name
   location = var.resource_location
 }
 
+# Create app service plan
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = local.app_service_plan_name
   location            = azurerm_resource_group.resource_group.location
@@ -21,6 +23,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   }
 }
 
+# Create app service
 resource "azurerm_app_service" "app_service" {
   name                = local.app_service_name
   location            = azurerm_resource_group.resource_group.location

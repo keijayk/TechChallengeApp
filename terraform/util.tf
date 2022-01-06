@@ -1,3 +1,4 @@
+# Create container instance for updating the database
 resource "null_resource" "updatedb_container_create" {
       provisioner "local-exec" {
       command = <<-EOT
@@ -17,7 +18,8 @@ resource "null_resource" "updatedb_container_create" {
       depends_on = [azurerm_postgresql_server.postgresql_server, azurerm_postgresql_database.postgresql_database, azurerm_key_vault_secret.postgress_key_vault_secret]
 }
 
-  resource "null_resource" "updatedb_container_remove" {
+# Remove container instance created for updating the database
+resource "null_resource" "updatedb_container_remove" {
       provisioner "local-exec" {
       command = <<-EOT
       ../scripts/check_status.sh "${azurerm_resource_group.resource_group.name}" "${var.container_name}" "${var.expected_log_message}"
@@ -29,7 +31,7 @@ resource "null_resource" "updatedb_container_create" {
       depends_on = [null_resource.updatedb_container_create]
 }
 
-
+# Push application container image to registry
 resource "null_resource" "docker_push" {
       provisioner "local-exec" {
       command = <<-EOT

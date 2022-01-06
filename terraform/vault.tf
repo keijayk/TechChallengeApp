@@ -1,6 +1,6 @@
 data "azurerm_client_config" "current" {}
 
-# Azure Key Vault
+# Create key vault
 resource "azurerm_key_vault" "key_vault" {
   name                = var.key_vault_name
   location            = azurerm_resource_group.resource_group.location
@@ -16,14 +16,13 @@ resource "azurerm_key_vault" "key_vault" {
   }
 }
 
-
-# Create KeyVault  postgress credentials
+# Create key vault postgress password
 resource "random_password" "postgress_password" {
   length = 20
   special = true
 }
 
-# Secret
+# Create key vault secret for postgressql database
 resource "azurerm_key_vault_secret" "postgress_key_vault_secret" {
   name          = var.key_vault_secret_name
   value         = random_password.postgress_password.result

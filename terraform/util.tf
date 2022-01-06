@@ -20,7 +20,7 @@ resource "null_resource" "updatedb_container_create" {
   resource "null_resource" "updatedb_container_remove" {
       provisioner "local-exec" {
       command = <<-EOT
-      ../scripts/check_status.sh ${azurerm_resource_group.resource_group.name} ${var.container_name} 
+      ../scripts/check_status.sh "${azurerm_resource_group.resource_group.name}" "${var.container_name}" "${var.expected_log_message}"
       az container delete --yes --resource-group ${azurerm_resource_group.resource_group.name} \
       --name ${var.container_name}
       EOT

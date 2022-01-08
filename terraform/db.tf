@@ -11,7 +11,7 @@ resource "azurerm_postgresql_server" "postgresql_server" {
   geo_redundant_backup_enabled  = var.postgresql_server_geo_redundant_backup_enabled
   auto_grow_enabled             = var.postgresql_server_auto_grow_enabled
 
-  administrator_login           = var.postgresql_server_administrator_login
+  administrator_login           = var.postgresql_db_user
   administrator_login_password  = azurerm_key_vault_secret.postgress_key_vault_secret.value
   version                       = var.postgresql_server_version
   ssl_enforcement_enabled       = var.postgresql_server_ssl_enforcement_enabled

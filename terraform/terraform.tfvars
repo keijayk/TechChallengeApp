@@ -97,7 +97,7 @@ postgresql_server_storage_mb                   =  5120
 postgresql_server_backup_retention_days        =  7
 postgresql_server_geo_redundant_backup_enabled =  false
 postgresql_server_auto_grow_enabled            =  true
-postgresql_server_administrator_login          =  "psqladmin"
+
 postgresql_server_version                      =  "9.5"
 postgresql_server_ssl_enforcement_enabled      =  false
 
@@ -108,6 +108,11 @@ postgresql_database_collation                  =  "English_United States.1252"
 postgresql_firewall_rule_name                  =  "postgresql-fw-rule"
 postgresql_firewall_rule_start_ip_address      =  "0.0.0.0"
 postgresql_firewall_rule_end_ip_address        =  "0.0.0.0"
+
+postgresql_db_user                             =  "postgres"
+postgresql_db_host                             =  "postgresql-server-kg.postgres.database.azure.com"
+postgresql_db_host_name                        =  "postgresql-server-kg"
+postgresql_db_listen_host                      =  "localhost"
 
 # Key vault assignment
 key_vault_name                         =  "devopschallgegevault"

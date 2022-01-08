@@ -305,10 +305,6 @@ variable "postgresql_server_auto_grow_enabled" {
   description = "Postgresssl server auto grow enabled flag"
 }
 
-variable "postgresql_server_administrator_login" {
-  type        = string
-  description = "Postgresssl server admin login"
-}
 
 variable "postgresql_server_version" {
   type        = string
@@ -349,6 +345,27 @@ variable "postgresql_firewall_rule_end_ip_address" {
   type        = string
   description = "Postgresssl firewall rule end ip address"
 }
+
+variable postgresql_db_user {
+  type        = string
+  description = "Postgresql db user"
+}
+
+variable postgresql_db_host {
+  type        = string
+  description = "Postgresql db host fqdn"
+}
+
+variable postgresql_db_host_name {
+  type        = string
+  description = "Postgresql db host name"
+}
+
+variable postgresql_db_listen_host {
+  type        = string
+  description = "Postgresql db listen host "
+}
+
 
 # key vault
 
@@ -392,14 +409,6 @@ locals {
 
   docker_registry_server_url    = "https://${azurerm_container_registry.container_registry.login_server}"  # url doesn't have https
 
-  viper_db_user       = upper(format("%s_%s",var.viper_prefix,"DbUser"))
-  viper_db_password   = upper(format("%s_%s",var.viper_prefix,"DbPassword"))
-  viper_db_name       = upper(format("%s_%s",var.viper_prefix,"DbName"))
-  viper_db_port       = upper(format("%s_%s",var.viper_prefix,"DbPort"))
-  viper_db_host       = upper(format("%s_%s",var.viper_prefix,"DbHost"))
-  viper_db_host_name  = upper(format("%s_%s",var.viper_prefix,"DbHostName"))
-  viper_listen_host   = upper(format("%s_%s",var.viper_prefix,"ListenHost"))
-  viper_listen_port   = upper(format("%s_%s",var.viper_prefix,"ListenPort"))
 }
 
 

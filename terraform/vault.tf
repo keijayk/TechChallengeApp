@@ -16,16 +16,16 @@ resource "azurerm_key_vault" "key_vault" {
   }
 }
 
-# Create key vault postgress password
-resource "random_password" "postgress_password" {
+# Create key vault postgresql database password
+resource "random_password" "postgres_password" {
   length = 20
   special = true
 }
 
-# Create key vault secret for postgressql database
-resource "azurerm_key_vault_secret" "postgress_key_vault_secret" {
+# Create key vault secret for postgresql database
+resource "azurerm_key_vault_secret" "postgres_key_vault_secret" {
   name          = var.key_vault_secret_name
-  value         = random_password.postgress_password.result
+  value         = random_password.postgres_password.result
   key_vault_id  = azurerm_key_vault.key_vault.id
-  depends_on    = [ azurerm_key_vault.key_vault, random_password.postgress_password ]
+  depends_on    = [ azurerm_key_vault.key_vault, random_password.postgres_password ]
 }

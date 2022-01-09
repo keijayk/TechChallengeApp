@@ -89,7 +89,7 @@ role_definition_name                = "Contributor"
 container_name          = "updatedb-container"
 container_delegation    = "container-delegation-service"
 
-# PostGresSQL database assignment
+# Postgresql database assignment
 postgresql_server_name                         = "postgresql-server-kg"
 postgresql_server_sku_name                     = "GP_Gen5_2"
 
@@ -117,8 +117,7 @@ postgresql_db_listen_host                      = "localhost"
 # Key vault assignment
 key_vault_name                         = "devopschallgegevault"
 key_vault_sku_name                     = "standard"
-key_vault_secret_name                  = "postgress-credentials"
-key_vault_postgress_secret_value       = "H@Sh1CoR3!ABC"
+key_vault_secret_name                  = "postgres-credentials"
 
 
 # Expected log message when completing updatedb

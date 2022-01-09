@@ -43,7 +43,7 @@ resource "azurerm_subnet" "container_instance_subnet" {
   }
 }
 
-# Create endpoint subnet for postgressql database
+# Create endpoint subnet for postgresql database
 resource "azurerm_subnet" "endpoint_subnet" {
   name                                           = var.endpoint_subnet_name
   resource_group_name                            = azurerm_resource_group.resource_group.name
@@ -52,7 +52,7 @@ resource "azurerm_subnet" "endpoint_subnet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-# Create private dns zone for postgressql database
+# Create private dns zone for postgresql database
 resource "azurerm_private_dns_zone" "private_dns_zone" {
   name                = var.private_dns_zone_name
   resource_group_name = azurerm_resource_group.resource_group.name

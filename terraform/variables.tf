@@ -277,73 +277,73 @@ variable container_delegation {
 
 variable "postgresql_server_name" {
   type        = string
-  description = "Postgresssl server name"
+  description = "Postgresql server name"
 }
 
 variable "postgresql_server_sku_name" {
   type        = string
-  description = "Postgresssl SKU name"
+  description = "Postgresql SKU name"
 }
 
 variable "postgresql_server_storage_mb" {
   type        = string
-  description = "Postgresssl server storage mb"
+  description = "Postgresql server storage mb"
 }
 
 variable "postgresql_server_backup_retention_days" {
   type        = string
-  description = "Postgresssl server backup retention days"
+  description = "Postgresql server backup retention days"
 }
 
 variable "postgresql_server_geo_redundant_backup_enabled" {
   type        = string
-  description = "Postgresssl geo redundant backup enabled"
+  description = "Postgresql geo redundant backup enabled"
 }
 
 variable "postgresql_server_auto_grow_enabled" {
   type        = string
-  description = "Postgresssl server auto grow enabled flag"
+  description = "Postgresql server auto grow enabled flag"
 }
 
 
 variable "postgresql_server_version" {
   type        = string
-  description = "Postgresssl server version"
+  description = "Postgresql server version"
 }
 
 variable "postgresql_server_ssl_enforcement_enabled" {
   type        = string
-  description = "Postgresssl server ssl enforcement enabled flag"
+  description = "Postgresql server ssl enforcement enabled flag"
 }
 
 variable "postgresql_database_name" {
   type        = string
-  description = "Postgresssl database name"
+  description = "Postgresql database name"
 }
 
 variable "postgresql_database_charset" {
   type        = string
-  description = "Postgresssl database charset"
+  description = "Postgresql database charset"
 }
 
 variable "postgresql_database_collation" {
   type        = string
-  description = "Postgresssl database collation"
+  description = "Postgresql database collation"
 }
 
 variable "postgresql_firewall_rule_name" {
   type        = string
-  description = "Postgresssl firewall rule"
+  description = "Postgresql firewall rule"
 }
 
 variable "postgresql_firewall_rule_start_ip_address" {
   type        = string
-  description = "Postgresssl firewall rule startup ip address"
+  description = "Postgresql firewall rule startup ip address"
 }
 
 variable "postgresql_firewall_rule_end_ip_address" {
   type        = string
-  description = "Postgresssl firewall rule end ip address"
+  description = "Postgresql firewall rule end ip address"
 }
 
 variable postgresql_db_user {
@@ -383,11 +383,6 @@ variable key_vault_sku_name {
 variable key_vault_secret_name {
   type        = string
   description = "Vault secret name"
-}
-
-variable key_vault_postgress_secret_value {
-  type        = string
-  description = "Vault secret value"
 }
 
 variable expected_log_message {

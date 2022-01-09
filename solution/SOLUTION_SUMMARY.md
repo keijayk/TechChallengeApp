@@ -103,7 +103,7 @@ The deployment solution satisfies the following assessment criteria as described
 
 - Network Segmention
 
-  The deployment solution is designed to achieve network segmentation as folows. The frontend of the application (as Azure app service) is hosted in a Virtual Network (VNet). Private Link [[9](https://docs.microsoft.com/en-us/azure/postgresql/concepts-data-access-and-security-private-link)] for Azure Database for PostgreSQL-Single server is used to bring Postgress server inside the VNet in which the frontend of the application is also hosted. The private endpoint exposes a private IP within a subnet that the frontend could use to connect to the database server. This setup secures the outbound connection from an App Service Fronend application to the postgress database. 
+  The deployment solution is designed to achieve network segmentation as folows. The frontend of the application (as Azure app service) is hosted in a Virtual Network (VNet). Private Link [[9](https://docs.microsoft.com/en-us/azure/postgresql/concepts-data-access-and-security-private-link)] for Azure Database for PostgreSQL-Single server is used to bring Postgres server inside the VNet in which the frontend of the application is also hosted. The private endpoint exposes a private IP within a subnet that the frontend could use to connect to the database server. This setup secures the outbound connection from an App Service Fronend application to the postgres database.
 
 - Azure Key Vault as Secret Storage
 

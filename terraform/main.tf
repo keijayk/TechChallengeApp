@@ -61,7 +61,7 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_URL"          = local.docker_registry_server_url
     "DOCKER_REGISTRY_SERVER_USERNAME"     = azurerm_container_registry.container_registry.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container_registry.admin_password
-    "VTT_DBPASSWORD"                      = azurerm_key_vault_secret.postgress_key_vault_secret.value
+    "VTT_DBPASSWORD"                      = azurerm_key_vault_secret.postgres_key_vault_secret.value
     "VTT_DBUSER"                          = var.postgresql_db_user
     "VTT_DBUSERWITHHOST"                  = var.postgresql_db_user_with_host
     "VTT_DBHOST"                          = var.postgresql_db_host
@@ -72,5 +72,5 @@ resource "azurerm_app_service" "app_service" {
     ProvisionedWith = var.tag_provisioned_with
   }
 
-  depends_on = [azurerm_postgresql_server.postgresql_server, azurerm_postgresql_database.postgresql_database, azurerm_key_vault_secret.postgress_key_vault_secret]
+  depends_on = [azurerm_postgresql_server.postgresql_server, azurerm_postgresql_database.postgresql_database, azurerm_key_vault_secret.postgres_key_vault_secret]
 }

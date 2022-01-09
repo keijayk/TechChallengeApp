@@ -70,21 +70,19 @@ The following fixes were required to automate the deployment of `TechChallengeAp
       "DbUserWithHost" = "postgres@localhost"
       ```
 3. Introduction of Terraform
+
    The deployment of the application is automated and required infrastructure is deployed using Terraform [code](../terraform).
 
 4. Introduction of Makefile
+
    The commands in  [Makefile](../Makefile) is used for the process instructions for provisioning the solution on Azure Cloud platform.
 
 
 ## High level architectural overview of the deployment.
 
+[architecture](./images/scalable-web-app.svg?raw=true)
+
 The solution was designed based on the guide [[1](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)] to choose the following Azure compute services and components for deploying the `TechChallengeApp`application on Azure cloud platform.
-
-### High level architectural overview of the deployment solution.
-
-[architecture](./images/scalable-web-app.svg)
-
-
 
 ### Azure Components
 
@@ -197,12 +195,15 @@ make clean
 
 
 Sample screenshots of the deployed application on Azure.
-**Deployed `TechChallengeApp` UI shows that a new task was added to postgresql DB.**
+
+**Deployed TechChallengeApp UI shows that a new task was added to postgresql DB.**
 ![app_azure](./images/frontend_azure.png?raw=true)
 
 **Successful Health check for the application.**
+
 ![healthcheck_azure](./images/healthcheck_azure.png?raw=true)
 
 **Swagger interface for the application.**
+
 ![swagger_azure](./images/swagger_azure.png?raw=true)
 

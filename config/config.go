@@ -30,6 +30,7 @@ import (
 // having issue with getters and setters on the struct
 type Config struct {
 	DbUser     string
+	DbUserWithHost string
 	DbPassword string
 	DbName     string
 	DbHost     string
@@ -51,11 +52,11 @@ func LoadConfig() (*Config, error) {
 	v.AutomaticEnv()
 
 	v.SetDefault("DbUser", "postgres")
+	v.SetDefault("DbUserWithHost", "postgres@localhost")
 	v.SetDefault("DbPassword", "postgres")
 	v.SetDefault("DbName", "postgres")
 	v.SetDefault("DbPort", "postgres")
 	v.SetDefault("DbHost", "localhost")
-
 	v.SetDefault("ListenHost", "127.0.0.1")
 	v.SetDefault("ListenPort", "3000")
 
@@ -66,6 +67,7 @@ func LoadConfig() (*Config, error) {
 	}
 
 	conf.DbUser = strings.TrimSpace(v.GetString("DbUser"))
+	conf.DbUserWithHost = strings.TrimSpace(v.GetString("DbUserWithHost"))
 	conf.DbPassword = strings.TrimSpace(v.GetString("DbPassword"))
 	conf.DbName = strings.TrimSpace(v.GetString("DbName"))
 	conf.DbHost = strings.TrimSpace(v.GetString("DbHost"))

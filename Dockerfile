@@ -10,7 +10,7 @@ RUN dir=$(mktemp -d) \
     && go install ./cmd/swagger \
     && curl -sfL https://github.com/swagger-api/swagger-ui/archive/v$SWAGGER_UI_VERSION.tar.gz | tar xz -C /tmp/ \
     && mv /tmp/swagger-ui-$SWAGGER_UI_VERSION /tmp/swagger \
-    && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"./swagger.json"#g' /tmp/swagger/dist/index.html
+    && sed -i 's#"https://petstore\.swagger\.io/v2/swagger\.json"#"/swagger/swagger.json"#g' /tmp/swagger/dist/index.html
 
 RUN go get github.com/GeertJohan/go.rice/rice
 
@@ -32,8 +32,10 @@ RUN cd ui && rice append --exec /TechChallengeApp
 FROM alpine:latest
 
 WORKDIR /TechChallengeApp
-
+EXPOSE 3000
 COPY conf.toml ./conf.toml
+COPY --from=build /tmp/swagger/dist ui/assets/swagger
+COPY --from=build /swagger.json ui/assets/swagger/swagger.json
 COPY --from=build /TechChallengeApp TechChallengeApp
 
 ENTRYPOINT [ "./TechChallengeApp" ]

@@ -4,18 +4,21 @@ This solution automates the deployment of `TechChallengeApp`using Terraform on A
 
 ## Pre-requisites for the deployment solution.
 
+A system with the following installed:
+
 * Azure CLI (2.31.0)
 * Terraform (v1.1.0)
 * Git (2.25.1)
 * Docker (20.10.11)
+* Go (1.17.5)
 
 ## Required Changes
 
-The following fixes were required to automate the deployment of `TechChallengeApp`using Terraform on Azure Cloud Platform. 
+The following fixes were required to automate the deployment of `TechChallengeApp` using Terraform on Azure Cloud Platform. 
 
-1. Changes in Dockerfile
+1. Changes in [Dockerfile](Dockerfile) to deploy the frontend of the application as Azure app service.
 
-   To manually configure a custom port like 3000, Azure requires to use the EXPOSE instruction in the Dockerfile and the app setting, WEBSITES_PORT, with a port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
+   To manually configure a custom port like 3000, Azure app service requires one to use the EXPOSE instruction in the Dockerfile and `WEBSITES_PORT` in the app setting, with the port value to bind on the container [[11](https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#custom-containers)].
 
    Expose port:
 
@@ -34,47 +37,58 @@ The following fixes were required to automate the deployment of `TechChallengeAp
    COPY --from=build /swagger.json ui/assets/swagger/swagger.json
    ```
 
+2. Changes in the frontend of the application for connecting to DB.
 
-2. Changes in the frontend of the application connecting to DB.
+   Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username for connecting to postgresql database should be in <username@hostname> format.
 
-   Azure Database for PostgreSQL Single Server [[10](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-azure-powershell)] requires that the Username should be in <username@hostname> format.
+   Therefore, the following files were changed to make the DB connection from the frontend of the application.
 
-   The following changes were done to make the DB connection from the frontend of the application.
+   - [config/config.go](../config/config.go) 
 
-   - config/config.go 
+      ```
+      v.SetDefault("DbUserWithHost", "postgres@localhost")
 
-   ```
-   v.SetDefault("DbUserWithHost", "postgres@localhost")
+      conf.DbUserWithHost = strings.TrimSpace(v.GetString("DbUserWithHost"))
+      ```
 
-   conf.DbUserWithHost = strings.TrimSpace(v.GetString("DbUserWithHost"))
-   ```
+   - [db/db.go](../db/db.go)
 
-   - db/db.go
+      ```
+      return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+          cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword, cfg.DbName)
+      ```
 
-   ```
-   return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-      cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword, cfg.DbName)
-   ```
+   - [cmd/root.go](cmd/root.go)
 
-   - cmd/root.go
+      ```
+      cfg.UI.DB.DbUserWithHost = conf.DbUserWithHost
+      ```
 
-   ```
-   cfg.UI.DB.DbUserWithHost = conf.DbUserWithHost
-   ```
+   - [conf.toml](conf.toml)
 
+      ```
+      "DbUserWithHost" = "postgres@localhost"
+      ```
+3. Introduction of Terraform
+   The deployment of the application is automated and required infrastructure is deployed using Terraform [code](../terraform).
 
-   - conf.toml
+4. Introduction of Makefile
+   The commands in  [Makefile](../Makefile) is used for the process instructions for provisioning the solution on Azure Cloud platform.
 
-   ```
-   "DbUserWithHost" = "postgres@localhost"
-   ```
 
 ## High level architectural overview of the deployment.
 
-The deployment solution was designed based on the guide [[1](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)] to choose the following Azure compute services and components for the `TechChallengeApp`application.
+The solution was designed based on the guide [[1](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)] to choose the following Azure compute services and components for deploying the `TechChallengeApp`application on Azure cloud platform.
+
+### High level architectural overview of the deployment solution.
+
+[architecture](./images/scalable-web-app.svg)
+
+
 
 ### Azure Components
-I chose the following Azure Components based on the underlying reasons listed for each one of them.
+
+I chose the following Azure Components based on the reasons listed for each one of them.
 
 * Azure App Service [[2](https://azure.microsoft.com/en-us/services/app-service/)] for deploying the `TechChallengeApp`frontend component.
   - A fully managed service that includes built-in infrastructure maintenance, security patching - simplify operations
@@ -85,17 +99,17 @@ I chose the following Azure Components based on the underlying reasons listed fo
   -  Offers a single-node database service with built-in high availability. 
   -  Handles most of the database management functions such as patching, backups, security with minimal user configuration and control. 
 
-* Azure Container Instance [[5](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview)] for executing `updatedb` task for initializing database. 
-  - Provides fast startup times - quick to iniitilize database as a one time operation.
+* Azure Container Instance [[5](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview)] for executing `updatedb` task for initializing database. The container instance will removed from the infrastructure as the last step of the deployment process.
+  - Provides fast startup times - quick to iniitilize database as a one time operation. 
 
 * Azure Key Vault [[6](https://azure.microsoft.com/en-us/services/key-vault/#product-overview)] as Secrets storage for storing database credentials.
   - Integrate with App Service (the frontend app) for advanced secrets management. 
   - Support securely accessing the secrets with a managed identity from App Service (the frontend app).
   
 * Azure Virtual Networks(VNets) [[14](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)] to enable the frontend of the application to access database through a virtual network.
-  - Support App Service (the frontend app) to access other resources such as database in seccure manner.
+  - Support App Service (the frontend app) to access other resources such as database in a seccure manner.
 
-## How the deployment solution meets assessment criteria
+## How the deployment solution meets assessment criteria?
 
 The deployment solution satisfies the following assessment criteria as described below. 
 
@@ -122,18 +136,21 @@ The deployment solution satisfies the following assessment criteria as described
   The deployment solution is designed to enable auto scaling and highly available frontend by using a) Azure App Service for the frontend of the application and b) Azure Database for PostgreSQL-Single server as highly available Database.
   
 
-## Process instructions for provisioning the solution.
-
-### Deploying Solution on Azure
+## Process instructions for provisioning the solution on Azure Cloud platform.
 
 Checkout 
 ```console
 git clone --recursive git@github.com:keijayk/TechChallengeApp.git
 ```
 
-Setup:
+Initiailize Terraform deployment:
 ```console
 make init
+```
+
+Build app from source:
+```console
+make build
 ```
 
 Build app container image:
@@ -141,27 +158,20 @@ Build app container image:
 make build-image
 ```
 
-Push app container image:
-```console
-make push-image
-```
-
 To deploy:
 ```console
 make deploy
 ```
 
-Delete deployed resources (app, database and all Azuere infrastrucure component):
+Delete the deployed resources (app, database and all Azuere infrastrucure component):
 ```console
 make destroy
 ```
 
-Cleanup:
+Cleanup Terraform cache files:
 ```console
 make clean
 ```
-
-
 
 ## Interesting endpoints on Azure:
 
@@ -184,3 +194,15 @@ make clean
 12. https://docs.microsoft.com/en-us/azure/app-service/overview-security
 13. https://docs.microsoft.com/en-us/azure/postgresql/concepts-security 
 14. https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview
+
+
+Sample screenshots of the deployed application on Azure.
+**Deployed `TechChallengeApp` UI shows that a new task was added to postgresql DB.**
+![app_azure](./images/frontend_azure.png?raw=true)
+
+**Successful Health check for the application.**
+![healthcheck_azure](./images/healthcheck_azure.png?raw=true)
+
+**Swagger interface for the application.**
+![swagger_azure](./images/swagger_azure.png?raw=true)
+

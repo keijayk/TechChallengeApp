@@ -2,7 +2,7 @@ SHELL:= /bin/bash
 
 IMAGE=techchallengeapp:dev
 
-all:  init build-image deploy
+all:  init build build-image deploy
 
 init:
 	terraform -chdir=terraform init

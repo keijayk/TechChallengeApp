@@ -78,7 +78,7 @@ autoscale_scale_action_cooldown             = "PT1M"
 autoscale_scale_action_direction_dec        = "Decrease"
 
 # App container image
-app_container_image_name_tag        = "techchallengeapp:dev23"
+app_container_image_name_tag        = "techchallengeapp:dev"
 
 # Container registry assignment
 container_registry_display_name     = "container-registry-app"

@@ -63,8 +63,8 @@ resource "azurerm_app_service" "app_service" {
     "DOCKER_REGISTRY_SERVER_PASSWORD"     = azurerm_container_registry.container_registry.admin_password
     "VTT_DBPASSWORD"                      = azurerm_key_vault_secret.postgress_key_vault_secret.value
     "VTT_DBUSER"                          = var.postgresql_db_user
+    "VTT_DBUSERWITHHOST"                  = var.postgresql_db_user_with_host
     "VTT_DBHOST"                          = var.postgresql_db_host
-    "VTT_DBHOSTNAME"                      = var.postgresql_db_host_name
     "VTT_DBLISTENHOST"                    = var.postgresql_db_listen_host
   }
   tags = {

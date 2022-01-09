@@ -33,23 +33,23 @@ import (
 
 // Config - configuration for the db package
 type Config struct {
-	DbUser     string
-	DbPassword string
-	DbName     string
-	DbHostName string
-	DbHost     string
-	DbPort     string
+	DbUser     		string
+	DbUserWithHost	string
+	DbPassword 		string
+	DbName     		string
+	DbHost     		string
+	DbPort     		string
 }
 
 func getDbInfo(cfg Config) string {
-	return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
-		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword, cfg.DbName)
 }
 
 // RebuildDb drops the database and recreates it
 func RebuildDb(cfg Config) error {
-	dbinfo := fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=postgres sslmode=disable",
-		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword)
+	dbinfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=postgres sslmode=disable",
+		cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword)
 
 	db, err := sql.Open("postgres", dbinfo)
 

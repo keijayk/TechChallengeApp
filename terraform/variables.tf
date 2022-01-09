@@ -351,15 +351,16 @@ variable postgresql_db_user {
   description = "Postgresql db user"
 }
 
+variable postgresql_db_user_with_host {
+  type        = string
+  description = "Postgresql db user with host as <user@host>"
+}
+
 variable postgresql_db_host {
   type        = string
   description = "Postgresql db host fqdn"
 }
 
-variable postgresql_db_host_name {
-  type        = string
-  description = "Postgresql db host name"
-}
 
 variable postgresql_db_listen_host {
   type        = string

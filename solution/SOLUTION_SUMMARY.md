@@ -44,31 +44,29 @@ The following fixes were required to automate the deployment of `TechChallengeAp
    - config/config.go 
 
    ```
-   v.SetDefault("DbHostName", "localhost")
+   v.SetDefault("DbUserWithHost", "postgres@localhost")
 
-   conf.DbHostName = strings.TrimSpace(v.GetString("DbHostName"))
+   conf.DbUserWithHost = strings.TrimSpace(v.GetString("DbUserWithHost"))
    ```
 
    - db/db.go
 
    ```
-   return fmt.Sprintf("host=%s port=%s user=%s@%s password=%s dbname=%s sslmode=disable",
-      cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbHostName, cfg.DbPassword, cfg.DbName)
+   return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+      cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword, cfg.DbName)
    ```
 
    - cmd/root.go
 
    ```
-   cfg.UI.DB.DbHostName = conf.DbHostName
+   cfg.UI.DB.DbUserWithHost = conf.DbUserWithHost
    ```
 
 
    - conf.toml
 
    ```
-   "DbHost" = "postgresql-server-kg.postgres.database.azure.com"
-   "DbHostName" = "postgresql-server-kg"
-   "ListenHost" = "0.0.0.0"
+   "DbUserWithHost" = "postgres@localhost"
    ```
 
 ## High level architectural overview of the deployment.

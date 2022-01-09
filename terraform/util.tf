@@ -9,7 +9,7 @@ resource "null_resource" "updatedb_container_create" {
       --subnet ${azurerm_subnet.container_instance_subnet.name} \
       --vnet ${azurerm_virtual_network.virtual_network.name} \
       --restart-policy Never \
-      --environment-variables "VTT_DBPASSWORD"="${azurerm_key_vault_secret.postgress_key_vault_secret.value}" "VTT_DBUSER"="${var.postgresql_db_user}"  "VTT_DBHOST"="${var.postgresql_db_host}"  "VTT_DBHOSTNAME"="${var.postgresql_db_host_name}"  "VTT_DBLISTENHOST"="${var.postgresql_db_listen_host}" \
+      --environment-variables "VTT_DBPASSWORD"="${azurerm_key_vault_secret.postgress_key_vault_secret.value}" "VTT_DBUSER"="${var.postgresql_db_user}"  "VTT_DBUSERWITHHOST"="${var.postgresql_db_user_with_host}"  "VTT_DBHOST"="${var.postgresql_db_host}"  "VTT_DBLISTENHOST"="${var.postgresql_db_listen_host}" \
       --registry-username ${azurerm_container_registry.container_registry.admin_username} \
       --registry-password ${azurerm_container_registry.container_registry.admin_password}
       EOT

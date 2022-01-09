@@ -110,8 +110,8 @@ postgresql_firewall_rule_start_ip_address      = "0.0.0.0"
 postgresql_firewall_rule_end_ip_address        = "0.0.0.0"
 
 postgresql_db_user                             = "postgres"
+postgresql_db_user_with_host                   = "postgres@postgresql-server-kg"
 postgresql_db_host                             = "postgresql-server-kg.postgres.database.azure.com"
-postgresql_db_host_name                        = "postgresql-server-kg"
 postgresql_db_listen_host                      = "localhost"
 
 # Key vault assignment

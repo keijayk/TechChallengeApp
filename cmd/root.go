@@ -77,10 +77,10 @@ func initConfig() {
 
 	cfg = &daemon.Config{}
 	cfg.UI.DB.DbName = conf.DbName
+	cfg.UI.DB.DbUserWithHost = conf.DbUserWithHost
 	cfg.UI.DB.DbPassword = conf.DbPassword
 	cfg.UI.DB.DbUser = conf.DbUser
 	cfg.UI.DB.DbHost = conf.DbHost
-	cfg.UI.DB.DbHostName = conf.DbHostName
 	cfg.UI.DB.DbPort = conf.DbPort
 	cfg.ListenSpec = conf.ListenHost + ":" + conf.ListenPort
 

@@ -80,7 +80,7 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
 ## High level architectural overview of the deployment.
 
-![Architecture](./images/scalable-web-app.svg?raw=true)
+![Architecture](./images/scalable-web-app.png?raw=true)
 
 The solution was designed based on the guide [[1](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)] to choose the following Azure compute services and components for deploying the `TechChallengeApp`application on Azure cloud platform.
 

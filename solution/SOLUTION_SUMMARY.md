@@ -45,6 +45,7 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
    - [config/config.go](../config/config.go) 
 
+      Add:
       ```
       v.SetDefault("DbUserWithHost", "postgres@localhost")
 
@@ -53,6 +54,7 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
    - [db/db.go](../db/db.go)
 
+      Change:
       ```
       return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
           cfg.DbHost, cfg.DbPort, cfg.DbUserWithHost, cfg.DbPassword, cfg.DbName)
@@ -60,14 +62,21 @@ The following fixes were required to automate the deployment of `TechChallengeAp
 
    - [cmd/root.go](cmd/root.go)
 
+      Add:
       ```
       cfg.UI.DB.DbUserWithHost = conf.DbUserWithHost
       ```
 
    - [conf.toml](conf.toml)
 
+      Add:
       ```
       "DbUserWithHost" = "postgres@localhost"
+      ```
+
+      Change:
+      ```
+      "ListenHost" = "0.0.0.0"
       ```
 3. Introduction of Terraform
 
@@ -139,6 +148,7 @@ The deployment solution satisfies the following assessment criteria as described
 Checkout 
 ```console
 git clone --recursive git@github.com:keijayk/TechChallengeApp.git
+cd TechChallengeApp
 ```
 
 Initiailize Terraform deployment:
@@ -194,7 +204,7 @@ make clean
 14. https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview
 
 
-Sample screenshots of the deployed application on Azure.
+## Sample screenshots of the deployed application on Azure.
 
 **Deployed TechChallengeApp UI shows that a new task was added to postgresql DB.**
 ![app_azure](./images/frontend_azure.png?raw=true)

@@ -15,6 +15,8 @@ resource "azurerm_postgresql_server" "postgresql_server" {
   administrator_login_password  = azurerm_key_vault_secret.postgres_key_vault_secret.value
   version                       = var.postgresql_server_version
   ssl_enforcement_enabled       = var.postgresql_server_ssl_enforcement_enabled
+
+  depends_on = [azurerm_key_vault_secret.postgres_key_vault_secret]
 }
 
 # Create postgresql database
